@@ -123,7 +123,7 @@ start_msg
 #' getopts. This is required to get my unrecognized option code to work.
 #+ getopts-parsing, eval=FALSE
 DOWNLOADURLVERSION='https://www.libreoffice.org/download/download/'
-DOWNLOADURLDMGSTEM='https://download.documentfoundation.org/libreoffice/stable/'
+DOWNLOADURLDMGSTEM='https://mirror.init7.net/tdf/libreoffice/stable/'
 DOWNLOADURLDMG=''
 LIBOVERSION=''
 while getopts ":d:v:h" FLAG; do
