@@ -100,12 +100,12 @@ log_msg () {
 get_rstudio_version () {
   curl $DOWNLOADURLVERSION > tmprsdl.txt
   RSTUDIOVERSION=$(grep 'a href=\"https://download1\.rstudio\.org/desktop/macos' tmprsdl.txt | head -1 | cut -d '-' -f2 | cut -d'"' -f1 | sed -e "s/\.dmg//")
-  # check whether RVersion could be determined
+  # check whether RStudio-Version could be determined
   if [ "$RSTUDIOVERSION" == '' ]
   then
-    log_msg 'get_rstudio_version' " * Cannot determine R version from $DOWNLOADURL"
-    log_msg 'get_rstudio_version' " * Inspect content in tmpdlpage.txt ..."
-    log_msg 'get_rstudio_version' " * Alteratively specify R version with -r"
+    log_msg 'get_rstudio_version' " * Cannot determine RStudio version from $DOWNLOADURLVERSION"
+    log_msg 'get_rstudio_version' " * Inspect content in tmprsdl.txt ..."
+    log_msg 'get_rstudio_version' " * Alteratively specify RStudio version with -r"
     usage ' -r <r_version>'
   else
     rm tmprsdl.txt
@@ -157,12 +157,12 @@ if test "$DOWNLOADURLDMG" == ""; then
 fi
 
 
-#' ## Get the R-version
-#' If the R-version is not specified, then get it from the web
-#+ get-rversion
+#' ## Get the RStudio-version
+#' If the RStudio-version is not specified, then get it from the web
+#+ get-rstudio-version
 if [ "$RSTUDIOVERSION" == '' ]
 then
-  log_msg $SCRIPT " * Determine R-version ..."
+  log_msg $SCRIPT " * Determine RStudio-version ..."
   get_rstudio_version
 fi
 
@@ -171,7 +171,7 @@ log_msg $SCRIPT " * Found RStudio version: $RSTUDIOVERSION ..."
 
 #' ## Assemble URL for RStudio.dmg
 #' RSTUDIOVERSION is used to specify the download link for RStudio.dmg
-#+ r-pkg-dl
+#+ rstudio-pkg-dl
 RSTUDIODMGFILE=RStudio-${RSTUDIOVERSION}.dmg
 RSTUDIOURL=${DOWNLOADURLDMG}${RSTUDIODMGFILE}
 log_msg $SCRIPT " * Download RStudio-dmg from: $RSTUDIOURL ..."
@@ -189,14 +189,12 @@ fi
 
 #' ## Ask For Clean Up
 #' Ask whether RStudio.dmg should be removed
-read -p " * Installation successful - Remove ${RSTUDIODMGFILE}? [yn]: " CLANSWER
+read -p " * Installation successful - Remove ${RSTUDIODMGFILE}? [y/n]: " CLANSWER
 if [ "$CLANSWER" == 'y' ]
 then
   log_msg $SCRIPT " * Remove $RSTUDIODMGFILE ..."
   rm $RSTUDIODMGFILE
 fi
-
-
 
 
 #' ## End of Script
