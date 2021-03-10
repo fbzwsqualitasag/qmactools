@@ -112,8 +112,6 @@ get_rstudio_version () {
   fi
 }
 
-}
-
 
 #' ## Main Body of Script
 #' The main body of the script starts here.
