@@ -98,7 +98,7 @@ log_msg () {
 }
 
 get_rstudio_version () {
-  curl $DOWNLOADURL > tmprsdl.txt
+  curl $DOWNLOADURLVERSION > tmprsdl.txt
   RSTUDIOVERSION=$(grep 'a href=\"https://download1\.rstudio\.org/desktop/macos' tmprsdl.txt | head -1 | cut -d '-' -f2 | cut -d'"' -f1 | sed -e "s/\.dmg//")
   # check whether RVersion could be determined
   if [ "$RSTUDIOVERSION" == '' ]
@@ -123,7 +123,8 @@ start_msg
 #' Notice there is no ":" after "h". The leading ":" suppresses error messages from
 #' getopts. This is required to get my unrecognized option code to work.
 #+ getopts-parsing, eval=FALSE
-DOWNLOADURL='https://rstudio.com/products/rstudio/download/'
+DOWNLOADURLVERSION='https://rstudio.com/products/rstudio/download/'
+DOWNLOADURLDMG='https://download1.rstudio.org/desktop/macos/'
 RSTUDIOVERSION=''
 while getopts ":a:b:ch" FLAG; do
   case $FLAG in
@@ -131,7 +132,7 @@ while getopts ":a:b:ch" FLAG; do
       usage "Help message for $SCRIPT"
       ;;
     d)
-      DOWNLOADURL=$OPTARG
+      DOWNLOADURLDMG=$OPTARG
       ;;
     r)
       RSTUDIOVERSION=$OPTARG
@@ -151,7 +152,7 @@ shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 #' The following statements are used to check whether required arguments
 #' have been assigned with a non-empty value
 #+ argument-test, eval=FALSE
-if test "$DOWNLOADURL" == ""; then
+if test "$DOWNLOADURLDMG" == ""; then
   usage "-d <download_url> not defined"
 fi
 
@@ -172,7 +173,7 @@ log_msg $SCRIPT " * Found RStudio version: $RSTUDIOVERSION ..."
 #' RSTUDIOVERSION is used to specify the download link for RStudio.dmg
 #+ r-pkg-dl
 RSTUDIODMGFILE=RStudio-${RSTUDIOVERSION}.dmg
-RSTUDIOURL=${DOWNLOADURL}${RSTUDIODMGFILE}
+RSTUDIOURL=${DOWNLOADURLDMG}${RSTUDIODMGFILE}
 log_msg $SCRIPT " * Download RStudio-dmg from: $RSTUDIOURL ..."
 curl $RSTUDIOURL > $RSTUDIODMGFILE
 
@@ -182,7 +183,7 @@ curl $RSTUDIOURL > $RSTUDIODMGFILE
 read -p " * Install downloaded pkg: ${RSTUDIODMGFILE}? [y/n]: " INANSWER
 if [ "$INANSWER" == 'y' ]
 then
-  log_msg $SCRIPT " * Install downloaded pkg: $RSTUDIODMGFILE ..."
+  log_msg $SCRIPT " * Install downloaded dmg: $RSTUDIODMGFILE ..."
   open $RSTUDIODMGFILE
 fi
 
