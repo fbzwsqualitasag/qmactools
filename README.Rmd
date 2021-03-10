@@ -28,7 +28,7 @@ You can install the released version of qmactools from GitHub
 git clone https://github.com/fbzwsqualitasag/qmactools.git
 ```
 
-## Example
+## Examples
 
 After the download you can install the latest version of R using 
 
@@ -42,6 +42,17 @@ The RStudio IDE can be installed running the bash script
 ```
 ./qmac_installrstudio.sh
 ```
+
+The office suite LibreOffice can be installed running the following script
+
+```
+./qmac_installlibo.sh
+```
+
+```{r, echo=FALSE, results='asis'}
+cat(paste0(c("\n---\n\n _Latest Changes: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), " (", Sys.info()[["user"]], ")_"), collapse = ''), "\n")
+```
+
 
 
 
