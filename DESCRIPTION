@@ -1,0 +1,16 @@
+Package: qmactools
+Title: Bash Tools Used on Mac
+Version: 0.0.1
+Authors@R: 
+    person(given = "Peter",
+           family = "von Rohr",
+           role = c("aut", "cre"),
+           email = "peter.vonrohr@qualitasag.ch")
+Description: Bash tools that can be used for installing a set of programs 
+    are collected in this project.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
