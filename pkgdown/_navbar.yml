@@ -1,0 +1,19 @@
+title: qmactools
+type: default
+right:
+  github:
+    text: Github
+    href: https://github.com/fbzwsqualitasag/qmactools/
+left:
+  home:
+    text: Home
+    href: https://fbzwsqualitasag.github.io/qmactools/index.html
+  reference:
+    text: Reference
+    href: https://fbzwsqualitasag.github.io/qmactools/reference/index.html
+  news:
+    text: News
+    href: https://fbzwsqualitasag.github.io/qmactools/news/index.html
+  bash:
+    text: Bash
+    href: https://fbzwsqualitasag.github.io/qmactools/bash_ref/index.html
