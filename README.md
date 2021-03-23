@@ -7,7 +7,8 @@
 <!-- badges: end -->
 
 The goal of qmactools is to provide a set of bash scripts that helps in
-the installation of certain programs.
+the installation of certain programs. The documentation of qmactools is
+available under <https://fbzwsqualitasag.github.io/qmactools/>
 
 ## Installation
 
@@ -37,4 +38,4 @@ The singularity viewer can be installed by running the following
 
 ------------------------------------------------------------------------
 
-*Latest Changes: 2021-03-23 14:40:04 (pvr)*
+*Latest Changes: 2021-03-23 15:01:00 (pvr)*

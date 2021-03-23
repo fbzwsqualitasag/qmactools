@@ -1,0 +1,25 @@
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - bash
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    news:
+      text: Changelog
+      href: news/index.html
+    bash:
+      text: Bash Scripts
+      href: bash_ref/index.html
+

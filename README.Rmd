@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of qmactools is to provide a set of bash scripts that helps in the installation of certain programs.
+The goal of qmactools is to provide a set of bash scripts that helps in the installation of certain programs. The documentation of qmactools is available under https://fbzwsqualitasag.github.io/qmactools/
 
 ## Installation
 
