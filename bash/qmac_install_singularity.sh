@@ -1,20 +1,20 @@
 #!/bin/bash
 #' ---
-#' title: Install RStudio
-#' date:  2021-03-10 08:55:44
+#' title: Install Singularity Viewer
+#' date:  2021-03-23 14:04:46
 #' author: Peter von Rohr
 #' ---
 #' ## Purpose
-#' Seamless installation of RStudio
+#' Automated installation of singularity viewer on MacOS
 #'
 #' ## Description
-#' Download and installation of the latetest version RStudio Desktop
+#' Download and installation of the latest version of the singularity viewer for MacOS
 #'
 #' ## Details
-#' The latest version is determined from the download site
+#' The latest version of singularity is determined from the website or given as a commandline argument
 #'
 #' ## Example
-#' ./qmac_installrstudio.sh
+#' ./qmac_installsingulairty.sh
 #'
 #' ## Set Directives
 #' General behavior of the script is driven by the following settings
@@ -58,9 +58,10 @@ SERVER=`hostname`                          # put hostname of server in variable 
 usage () {
   local l_MSG=$1
   $ECHO "Usage Error: $l_MSG"
-  $ECHO "Usage: $SCRIPT -d <download_url> -v <r_version>"
-  $ECHO "  where -d <download_url>     --  (optional) specification of download-url ..."
-  $ECHO "        -v <rstudio_version>  --  (optional) specific version of RStudio to download ..."
+  $ECHO "Usage: $SCRIPT -a <a_example> -b <b_example> -c"
+  $ECHO "  where -a <a_example> ..."
+  $ECHO "        -b <b_example> (optional) ..."
+  $ECHO "        -c (optional) ..."
   $ECHO ""
   exit 1
 }
@@ -97,24 +98,9 @@ log_msg () {
   $ECHO "[${l_RIGHTNOW} -- ${l_CALLER}] $l_MSG"
 }
 
-get_rstudio_version () {
-  curl $DOWNLOADURLVERSION > tmprsdl.txt
-  RSTUDIOVERSION=$(grep 'a href=\"https://download1\.rstudio\.org/desktop/macos' tmprsdl.txt | head -1 | cut -d '-' -f2 | cut -d'"' -f1 | sed -e "s/\.dmg//")
-  # check whether RStudio-Version could be determined
-  if [ "$RSTUDIOVERSION" == '' ]
-  then
-    log_msg 'get_rstudio_version' " * Cannot determine RStudio version from $DOWNLOADURLVERSION"
-    log_msg 'get_rstudio_version' " * Inspect content in tmprsdl.txt ..."
-    log_msg 'get_rstudio_version' " * Alteratively specify RStudio version with -r"
-    usage ' -r <r_version>'
-  else
-    rm tmprsdl.txt
-  fi
-}
-
 
 #' ## Main Body of Script
-#' The main body of the script starts here.
+#' The main body of the script starts here with a start script message.
 #+ start-msg, eval=FALSE
 start_msg
 
@@ -123,19 +109,34 @@ start_msg
 #' Notice there is no ":" after "h". The leading ":" suppresses error messages from
 #' getopts. This is required to get my unrecognized option code to work.
 #+ getopts-parsing, eval=FALSE
-DOWNLOADURLVERSION='https://rstudio.com/products/rstudio/download/'
-DOWNLOADURLDMG='https://download1.rstudio.org/desktop/macos/'
-RSTUDIOVERSION=''
+a_example=""
+b_example=""
+c_example=""
 while getopts ":a:b:ch" FLAG; do
   case $FLAG in
     h)
       usage "Help message for $SCRIPT"
       ;;
-    d)
-      DOWNLOADURLDMG=$OPTARG
+    a)
+      a_example=$OPTARG
+# OR for files
+#      if test -f $OPTARG; then
+#        a_example=$OPTARG
+#      else
+#        usage "$OPTARG isn't a regular file"
+#      fi
+# OR for directories
+#      if test -d $OPTARG; then
+#        a_example=$OPTARG
+#      else
+#        usage "$OPTARG isn't a directory"
+#      fi
       ;;
-    r)
-      RSTUDIOVERSION=$OPTARG
+    b)
+      b_example=$OPTARG
+      ;;
+    c)
+      c_example="c_example_value"
       ;;
     :)
       usage "-$OPTARG requires an argument"
@@ -152,52 +153,20 @@ shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 #' The following statements are used to check whether required arguments
 #' have been assigned with a non-empty value
 #+ argument-test, eval=FALSE
-if test "$DOWNLOADURLDMG" == ""; then
-  usage "-d <download_url> not defined"
+if test "$a_example" == ""; then
+  usage "-a a_example not defined"
 fi
 
 
-#' ## Get the RStudio-version
-#' If the RStudio-version is not specified, then get it from the web
-#+ get-rstudio-version
-if [ "$RSTUDIOVERSION" == '' ]
-then
-  log_msg $SCRIPT " * Determine RStudio-version ..."
-  get_rstudio_version
-fi
 
-log_msg $SCRIPT " * Found RStudio version: $RSTUDIOVERSION ..."
+#' ## Your Code
+#' Continue to put your code here
+#+ your-code-here
 
-
-#' ## Assemble URL for RStudio.dmg
-#' RSTUDIOVERSION is used to specify the download link for RStudio.dmg
-#+ rstudio-pkg-dl
-RSTUDIODMGFILE=RStudio-${RSTUDIOVERSION}.dmg
-RSTUDIOURL=${DOWNLOADURLDMG}${RSTUDIODMGFILE}
-log_msg $SCRIPT " * Download RStudio-dmg from: $RSTUDIOURL ..."
-curl $RSTUDIOURL > $RSTUDIODMGFILE
-
-
-#' ## Install RStudio.dmg
-#' Use open for the installation of RStudio.dmg
-read -p " * Install downloaded pkg: ${RSTUDIODMGFILE}? [y/n]: " INANSWER
-if [ "$INANSWER" == 'y' ]
-then
-  log_msg $SCRIPT " * Install downloaded dmg: $RSTUDIODMGFILE ..."
-  open $RSTUDIODMGFILE
-fi
-
-#' ## Ask For Clean Up
-#' Ask whether RStudio.dmg should be removed
-read -p " * Installation successful - Remove ${RSTUDIODMGFILE}? [y/n]: " CLANSWER
-if [ "$CLANSWER" == 'y' ]
-then
-  log_msg $SCRIPT " * Remove $RSTUDIODMGFILE ..."
-  rm $RSTUDIODMGFILE
-fi
 
 
 #' ## End of Script
+#' This is the end of the script with an end-of-script message.
 #+ end-msg, eval=FALSE
 end_msg
 
