@@ -58,10 +58,8 @@ SERVER=`hostname`                          # put hostname of server in variable 
 usage () {
   local l_MSG=$1
   $ECHO "Usage Error: $l_MSG"
-  $ECHO "Usage: $SCRIPT -a <a_example> -b <b_example> -c"
-  $ECHO "  where -a <a_example> ..."
-  $ECHO "        -b <b_example> (optional) ..."
-  $ECHO "        -c (optional) ..."
+  $ECHO "Usage: $SCRIPT -d <download_url>"
+  $ECHO "  where -d <download_url>         --  url from where singularity can be downloaded ..."
   $ECHO ""
   exit 1
 }
@@ -98,6 +96,25 @@ log_msg () {
   $ECHO "[${l_RIGHTNOW} -- ${l_CALLER}] $l_MSG"
 }
 
+#' ### Singularity Version
+#' Function to determine latest version of singularity viewer
+#+ get-si-version-fun
+get_si_dlurl () {
+  curl $DOWNLOADURLVERSION > tmpsidl.txt
+  DOWNLOADURLDMG=$(grep 'Download Now' tmpsidl.txt | head -1 | cut -d '=' -f2 | cut -d ' ' -f1 | sed -e "s/\"//g")
+  # check
+  if [ "$DOWNLOADURLDMG" == '' ]
+  then
+    log_msg 'get_si_dlurl' " * Cannot determine the download url for singularity from: $DOWNLOADURLVERSION"
+    log_msg 'get_si_dlurl' ' * Inspect tmpsidl.txt'
+    log_msg 'get_si_dlurl' ' * Alternatively specify download url with -d commandline argument'
+    usage ' -d <download_url> '
+  else
+    rm tmpsidl.txt
+  fi
+
+}
+
 
 #' ## Main Body of Script
 #' The main body of the script starts here with a start script message.
@@ -109,34 +126,15 @@ start_msg
 #' Notice there is no ":" after "h". The leading ":" suppresses error messages from
 #' getopts. This is required to get my unrecognized option code to work.
 #+ getopts-parsing, eval=FALSE
-a_example=""
-b_example=""
-c_example=""
-while getopts ":a:b:ch" FLAG; do
+DOWNLOADURLVERSION='https://sylabs.io/singularity-desktop-macos/'
+DOWNLOADURLDMG=''
+while getopts ":d:h" FLAG; do
   case $FLAG in
     h)
       usage "Help message for $SCRIPT"
       ;;
-    a)
-      a_example=$OPTARG
-# OR for files
-#      if test -f $OPTARG; then
-#        a_example=$OPTARG
-#      else
-#        usage "$OPTARG isn't a regular file"
-#      fi
-# OR for directories
-#      if test -d $OPTARG; then
-#        a_example=$OPTARG
-#      else
-#        usage "$OPTARG isn't a directory"
-#      fi
-      ;;
-    b)
-      b_example=$OPTARG
-      ;;
-    c)
-      c_example="c_example_value"
+    d)
+      DOWNLOADURLDMG=$OPTARG
       ;;
     :)
       usage "-$OPTARG requires an argument"
@@ -149,20 +147,45 @@ done
 
 shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 
-#' ## Checks for Command Line Arguments
-#' The following statements are used to check whether required arguments
-#' have been assigned with a non-empty value
-#+ argument-test, eval=FALSE
-if test "$a_example" == ""; then
-  usage "-a a_example not defined"
+
+#' ## Singularity Version
+#' The version of the latest singularity viewer is either taken from
+#' the commandline with -v or it is determined from the website
+#+ singularity-version
+if [ "$DOWNLOADURLDMG" == '' ]
+then
+  log_msg $SCRIPT " * Determine Singularity Download URL ..."
+  get_si_dlurl
 fi
 
 
+#' ## Download
+#' Download the singulrity.dmg file from  $DOWNLOADURLDMG
+#+ dl-msg
+SIDMGFILE=$(basename $DOWNLOADURLDMG)
+log_msg "$SCRIPT" " * Download singularity viewer from: $DOWNLOADURLDMG ..."
+curl $DOWNLOADURLDMG > $SIDMGFILE
 
-#' ## Your Code
-#' Continue to put your code here
-#+ your-code-here
 
+#' ## Installation
+#' Ask the user whether the downloaded dmg should be installed
+#+ install-dmg
+read -p " * Install downloaded dmg (${SIDMGFILE})? [y/n]: " INANSWER
+if [ "$INANSWER" == 'y' ]
+then
+  log_msg $SCRIPT " * Install downloaded dmg: $SIDMGFILE ..."
+  open $SIDMGFILE
+fi
+
+
+#' ## Ask For Clean Up
+#' Ask whether singularity.dmg should be removed
+read -p " * Installation successful - Remove ${SIDMGFILE}? [y/n]: " CLANSWER
+if [ "$CLANSWER" == 'y' ]
+then
+  log_msg $SCRIPT " * Remove $SIDMGFILE ..."
+  rm $SIDMGFILE
+fi
 
 
 #' ## End of Script

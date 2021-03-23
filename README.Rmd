@@ -34,20 +34,27 @@ After the download you can install the latest version of R using
 
 ```
 cd qmactools/bash
-./qmac_installr.sh
+./qmac_install_r.sh
 ```
 
 The RStudio IDE can be installed running the bash script
 
 ```
-./qmac_installrstudio.sh
+./qmac_install_rstudio.sh
 ```
 
 The office suite LibreOffice can be installed running the following script
 
 ```
-./qmac_installlibo.sh
+./qmac_install_libo.sh
 ```
+
+The singularity viewer can be installed by running the following
+
+```
+./qmac_install_singularity.sh
+```
+
 
 ```{r, echo=FALSE, results='asis'}
 cat(paste0(c("\n---\n\n _Latest Changes: ", format(Sys.time(), "%Y-%m-%d %H:%M:%S"), " (", Sys.info()[["user"]], ")_"), collapse = ''), "\n")

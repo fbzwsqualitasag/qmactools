@@ -58,7 +58,7 @@ SERVER=`hostname`                          # put hostname of server in variable 
 usage () {
   local l_MSG=$1
   $ECHO "Usage Error: $l_MSG"
-  $ECHO "Usage: $SCRIPT -d <download_url> -v <r_version>"
+  $ECHO "Usage: $SCRIPT -d <download_url> -v <rstudio_version>"
   $ECHO "  where -d <download_url>     --  (optional) specification of download-url ..."
   $ECHO "        -v <rstudio_version>  --  (optional) specific version of RStudio to download ..."
   $ECHO ""
@@ -180,7 +180,7 @@ curl $RSTUDIOURL > $RSTUDIODMGFILE
 
 #' ## Install RStudio.dmg
 #' Use open for the installation of RStudio.dmg
-read -p " * Install downloaded pkg: ${RSTUDIODMGFILE}? [y/n]: " INANSWER
+read -p " * Install downloaded dmg: ${RSTUDIODMGFILE}? [y/n]: " INANSWER
 if [ "$INANSWER" == 'y' ]
 then
   log_msg $SCRIPT " * Install downloaded dmg: $RSTUDIODMGFILE ..."

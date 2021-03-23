@@ -20,17 +20,21 @@ You can install the released version of qmactools from GitHub
 After the download you can install the latest version of R using
 
     cd qmactools/bash
-    ./qmac_installr.sh
+    ./qmac_install_r.sh
 
 The RStudio IDE can be installed running the bash script
 
-    ./qmac_installrstudio.sh
+    ./qmac_install_rstudio.sh
 
 The office suite LibreOffice can be installed running the following
 script
 
-    ./qmac_installlibo.sh
+    ./qmac_install_libo.sh
+
+The singularity viewer can be installed by running the following
+
+    ./qmac_install_singularity.sh
 
 ------------------------------------------------------------------------
 
-*Latest Changes: 2021-03-10 17:16:25 (pvr)*
+*Latest Changes: 2021-03-23 14:40:04 (pvr)*
