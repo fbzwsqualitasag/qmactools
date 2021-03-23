@@ -14,7 +14,7 @@
 #' This script downloads to main download page, determines the latest version and then gets the pkg.
 #'
 #' ## Example
-#' ./qmac_installr.sh
+#' ./qmac_install_r.sh
 #'
 #' ## Set Directives
 #' General behavior of the script is driven by the following settings

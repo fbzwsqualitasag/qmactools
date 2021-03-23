@@ -14,7 +14,7 @@
 #' Commandline tools like curl are used for the download and open is used to install the dmg file.
 #'
 #' ## Example
-#' ./qmac_installlibo.sh
+#' ./qmac_install_libo.sh
 #'
 #' ## Set Directives
 #' General behavior of the script is driven by the following settings

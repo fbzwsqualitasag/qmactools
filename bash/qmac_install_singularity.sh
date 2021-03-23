@@ -14,7 +14,7 @@
 #' The latest version of singularity is determined from the website or given as a commandline argument
 #'
 #' ## Example
-#' ./qmac_installsingulairty.sh
+#' ./qmac_install_singulairty.sh
 #'
 #' ## Set Directives
 #' General behavior of the script is driven by the following settings
