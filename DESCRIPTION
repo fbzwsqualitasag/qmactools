@@ -14,5 +14,5 @@ Language: en
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-URL: https://fbzwsqualitasag.github.io/qmactools/
+URL: https://fbzwsqualitasag.github.io/qmactools
 BugReports: https://github.com/fbzwsqualitasag/qmactools/issues
