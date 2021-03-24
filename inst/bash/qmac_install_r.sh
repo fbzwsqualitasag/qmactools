@@ -99,7 +99,7 @@ log_msg () {
 
 #' ### Determine R-Version
 #' Get R version from download website
-#' get-rversion-fun
+#+ get-rversion-fun
 get_rversion () {
   # download page with version
   curl $DOWNLOADURL > tmpdlpage.txt
@@ -169,7 +169,6 @@ then
   log_msg $SCRIPT " * Determine R-version ..."
   get_rversion
 fi
-
 log_msg $SCRIPT " * Found R-version: $RVERSION ..."
 
 
@@ -184,6 +183,7 @@ curl $RPKGURL > $RPKFILE
 
 #' ## Install R.pkg
 #' Use open for the installation of R.pkg
+#+ ask-for-installation
 read -p " * Install downloaded pkg: ${RPKFILE}? [y/n]: " INANSWER
 if [ "$INANSWER" == 'y' ]
 then
@@ -191,8 +191,10 @@ then
   open $RPKFILE
 fi
 
+
 #' ## Ask For Clean Up
 #' Ask whether R.pkg should be removed
+#+ ask-for-cleanup
 read -p " * Installation successful - Remove ${RPKFILE}? [yn]: " CLANSWER
 if [ "$CLANSWER" == 'y' ]
 then

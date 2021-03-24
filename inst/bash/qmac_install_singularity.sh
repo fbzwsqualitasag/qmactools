@@ -11,7 +11,8 @@
 #' Download and installation of the latest version of the singularity viewer for MacOS
 #'
 #' ## Details
-#' The latest version of singularity is determined from the website or given as a commandline argument
+#' The download url of the latest version of the singularity viewer for MacOS is
+#' determined from the website or given as a commandline argument using option -d
 #'
 #' ## Example
 #' ./qmac_install_singulairty.sh
@@ -96,8 +97,8 @@ log_msg () {
   $ECHO "[${l_RIGHTNOW} -- ${l_CALLER}] $l_MSG"
 }
 
-#' ### Singularity Version
-#' Function to determine latest version of singularity viewer
+#' ### Singularity Download URL
+#' Function to determine the download url of the latest version of the singularity viewer
 #+ get-si-version-fun
 get_si_dlurl () {
   curl $DOWNLOADURLVERSION > tmpsidl.txt
@@ -148,9 +149,9 @@ done
 shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 
 
-#' ## Singularity Version
-#' The version of the latest singularity viewer is either taken from
-#' the commandline with -v or it is determined from the website
+#' ## Singularity Download URL
+#' The download url of the latest version of the singularity viewer is either
+#' taken from the commandline with option -d or it is determined from the website
 #+ singularity-version
 if [ "$DOWNLOADURLDMG" == '' ]
 then
@@ -180,6 +181,7 @@ fi
 
 #' ## Ask For Clean Up
 #' Ask whether singularity.dmg should be removed
+#+ ask-for-cleanup
 read -p " * Installation successful - Remove ${SIDMGFILE}? [y/n]: " CLANSWER
 if [ "$CLANSWER" == 'y' ]
 then

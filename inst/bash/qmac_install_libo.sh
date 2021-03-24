@@ -97,6 +97,9 @@ log_msg () {
   $ECHO "[${l_RIGHTNOW} -- ${l_CALLER}] $l_MSG"
 }
 
+#' ### Determine LibO-Version
+#' Get LibO version from download website
+#+ get-libo-version-fun
 get_libo_version () {
   curl $DOWNLOADURLVERSION > tmpdllo.txt
   LIBOVERSION=$(grep version= tmpdllo.txt | grep macOS | head -1 | cut -d '=' -f4 | cut -d '&' -f1)
@@ -158,7 +161,6 @@ then
   log_msg $SCRIPT " * Determine LibO-version ..."
   get_libo_version
 fi
-
 log_msg $SCRIPT " * Found LibO version: $LIBOVERSION ..."
 
 
@@ -178,6 +180,7 @@ curl $LIBOURL > $LIBODMGFILE
 
 #' ## Install LibO.dmg
 #' Use open for the installation of LibO.dmg
+#+ ask-for-installation
 read -p " * Install downloaded dmg: ${LIBODMGFILE}? [y/n]: " INANSWER
 if [ "$INANSWER" == 'y' ]
 then
@@ -187,6 +190,7 @@ fi
 
 #' ## Ask For Clean Up
 #' Ask whether RStudio.dmg should be removed
+#+ ask-for-cleanup
 read -p " * Installation successful - Remove ${LIBODMGFILE}? [y/n]: " CLANSWER
 if [ "$CLANSWER" == 'y' ]
 then

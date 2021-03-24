@@ -97,6 +97,9 @@ log_msg () {
   $ECHO "[${l_RIGHTNOW} -- ${l_CALLER}] $l_MSG"
 }
 
+#' ### Determine RStudio-Version
+#' Get RStudio version from download website
+#+ get-rstudio-version-fun
 get_rstudio_version () {
   curl $DOWNLOADURLVERSION > tmprsdl.txt
   RSTUDIOVERSION=$(grep 'a href=\"https://download1\.rstudio\.org/desktop/macos' tmprsdl.txt | head -1 | cut -d '-' -f2 | cut -d'"' -f1 | sed -e "s/\.dmg//")
@@ -180,6 +183,7 @@ curl $RSTUDIOURL > $RSTUDIODMGFILE
 
 #' ## Install RStudio.dmg
 #' Use open for the installation of RStudio.dmg
+#+ ask-for-installation
 read -p " * Install downloaded dmg: ${RSTUDIODMGFILE}? [y/n]: " INANSWER
 if [ "$INANSWER" == 'y' ]
 then
@@ -189,6 +193,7 @@ fi
 
 #' ## Ask For Clean Up
 #' Ask whether RStudio.dmg should be removed
+#+ ask-for-cleanup
 read -p " * Installation successful - Remove ${RSTUDIODMGFILE}? [y/n]: " CLANSWER
 if [ "$CLANSWER" == 'y' ]
 then
