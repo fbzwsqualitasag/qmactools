@@ -1,3 +1,7 @@
+# qmactools 0.0.3
+
+* Releases installation script for the singularity viewer
+
 # qmactools 0.0.2
 
 * Released installation scirpt for LibO
