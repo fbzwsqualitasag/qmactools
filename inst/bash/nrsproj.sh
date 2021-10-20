@@ -108,8 +108,8 @@ start_msg
 #' Notice there is no ":" after "h". The leading ":" suppresses error messages from
 #' getopts. This is required to get my unrecognized option code to work.
 #+ getopts-parsing, eval=FALSE
-$RSTPROJTMPLPATH='/opt/qmactools/template/rstudio/RStudioTemplate.Rproj'
-RSTPROJNAME=$(date +"%Y%m%d%H%M%S")_rsproj.Rproj
+RSTPROJTMPLPATH='/opt/qmactools/template/rstudio/RStudioTemplate.Rproj'
+RSTPROJNAME=$(date +"%Y%m%d%H%M%S")_rsproj
 while getopts ":p:t:h" FLAG; do
   case $FLAG in
     h)
@@ -139,34 +139,33 @@ shift $((OPTIND-1))  #This tells getopts to move on to the next argument.
 if test "$RSTPROJNAME" == ""; then
   usage "-p <rstudio_project> not defined"
 fi
-if test "$$RSTPROJTMPLPATH" == ""; then
+if test "$RSTPROJTMPLPATH" == ""; then
   usage "-t <rstudio_template> not defined"
 fi
 
 
+#' ## Check RStudio Project Name
+RSTPROJFILE="${RSTPROJNAME}.Rproj"
+log_msg $SCRIPT " * RSTPROJFILE: $RSTPROJFILE ..."
+mkdir -p $RSTPROJNAME
+log_msg $SCRIPT " * Created dir: $RSTPROJNAME ..."
 
 #' ## RStudio Project Creation
 #' Copy the template and rename it to the given project name
 #+ copy-rename-tmpl
 RSTPROJTMPLFILE=$(basename $RSTPROJTMPLPATH)
 log_msg $SCRIPT " * Copy template from $RSTPROJTMPLPATH ..."
-cp $RSTPROJTMPLPATH .
+cp $RSTPROJTMPLPATH $RSTPROJNAME
 
 
-#' ## Check RStudio Project Name
-if [ "$(echo $RSTPROJNAME | cut -d'.' -f2)" != "Rproj" ]
-then
-  log_msg $SCRIPT " * Add Rproj extension to $RSTPROJNAME ..."
-  RSTPROJNAME="${RSTPROJNAME}.Rproj"
-fi
 log_msg $SCRIPT " * Rename $RSTPROJTMPLFILE to $RSTPROJNAME  ..."
-mv $RSTPROJTMPLFILE $RSTPROJNAME
+mv $RSTPROJNAME/$RSTPROJTMPLFILE $RSTPROJNAME/$RSTPROJFILE
 
 
 #' ## Start RStudio
 #' Use new project and start RStudio
 #+ start-rstudio
-open -a /Applications/RStudio.app $RSTPROJNAME
+open -a /Applications/RStudio.app $RSTPROJNAME/$RSTPROJFILE
 
 
 #' ## End of Script
