@@ -58,8 +58,10 @@ SERVER=`hostname`                          # put hostname of server in variable 
 usage () {
   local l_MSG=$1
   $ECHO "Usage Error: $l_MSG"
-  $ECHO "Usage: $SCRIPT -d <download_url> -v <r_version>"
+  $ECHO "Usage: $SCRIPT -d <download_url> -r <r_version> -u <r_pkg_url> -v <r_version>"
   $ECHO "  where -d <download_url>  --  (optional) specification of download-url ..."
+  $ECHO "        -r <r_version>     --  (optional) R version"
+  $ECHO "        -u <r_pkg_url>     --  (optional) R pkg download"
   $ECHO "        -v <r_version>     --  (optional) specific version of R to download ..."
   $ECHO ""
   exit 1
@@ -130,7 +132,8 @@ start_msg
 #+ getopts-parsing, eval=FALSE
 DOWNLOADURL='https://cloud.r-project.org/bin/macosx/'
 RVERSION=''
-while getopts ":d:r:h" FLAG; do
+RPKGURL=''
+while getopts ":d:r:u:h" FLAG; do
   case $FLAG in
     h)
       usage "Help message for $SCRIPT"
@@ -140,6 +143,9 @@ while getopts ":d:r:h" FLAG; do
       ;;
     r)
       RVERSION=$OPTARG
+      ;;
+    u)
+      RPKGURL=$OPTARG
       ;;
     :)
       usage "-$OPTARG requires an argument"
@@ -161,23 +167,27 @@ then
   usage " -d <download_url> cannot be empty"
 fi
 
-#' ## Get the R-version
-#' If the R-version is not specified, then get it from the web
-#+ get-rversion
-if [ "$RVERSION" == '' ]
-then
-  log_msg $SCRIPT " * Determine R-version ..."
-  get_rversion
-fi
-log_msg $SCRIPT " * Found R-version: $RVERSION ..."
-
 
 #' ## Assemble URL for R.pkg
 #' RVERSION is used to specify the download link for R.pkg
 #+ r-pkg-dl
-RPKFILE=R-${RVERSION}.pkg
-RPKGURL=${DOWNLOADURL}${RPKFILE}
-log_msg $SCRIPT " * Download R-pkg from: $RPKGURL ..."
+if [ "$RPKGURL" == '' ]
+then
+  # determine R version based on download page
+  if [ "$RVERSION" == '' ]
+  then
+    log_msg $SCRIPT " * Determine R-version ..."
+    get_rversion
+  fi
+  log_msg $SCRIPT " * Found R-version: $RVERSION ..."
+  # set up R pkg file
+  RPKFILE=R-${RVERSION}.pkg
+  RPKGURL=${DOWNLOADURL}${RPKFILE}
+  log_msg $SCRIPT " * Download R-pkg from: $RPKGURL ..."
+else
+  log_msg $SCRIPT " * Specified R package URL for download: $RPKGURL ..."
+  RPKFILE=$(basename $RPKGURL)
+fi
 curl $RPKGURL > $RPKFILE
 
 
