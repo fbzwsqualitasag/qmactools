@@ -119,7 +119,7 @@ while getopts ":p:t:h" FLAG; do
       RSTPROJNAME=$OPTARG
       ;;
     t)
-      $RSTPROJTMPLPATH=$OPTARG
+      RSTPROJTMPLPATH=$OPTARG
       ;;
     :)
       usage "-$OPTARG requires an argument"
