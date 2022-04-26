@@ -145,7 +145,8 @@ fi
 
 
 #' ## Check RStudio Project Name
-RSTPROJFILE="${RSTPROJNAME}.Rproj"
+RSTPROJFILE=$(basename $RSTPROJNAME)'.Rproj'
+RSTPROJDIR=$(dirname $RSTPROJNAME)
 log_msg $SCRIPT " * RSTPROJFILE: $RSTPROJFILE ..."
 mkdir -p $RSTPROJNAME
 log_msg $SCRIPT " * Created dir: $RSTPROJNAME ..."
@@ -154,11 +155,11 @@ log_msg $SCRIPT " * Created dir: $RSTPROJNAME ..."
 #' Copy the template and rename it to the given project name
 #+ copy-rename-tmpl
 RSTPROJTMPLFILE=$(basename $RSTPROJTMPLPATH)
-log_msg $SCRIPT " * Copy template from $RSTPROJTMPLPATH ..."
+log_msg $SCRIPT " * Copy template from: $RSTPROJTMPLPATH to: $RSTPROJNAME ..."
 cp $RSTPROJTMPLPATH $RSTPROJNAME
 
 
-log_msg $SCRIPT " * Rename $RSTPROJTMPLFILE to $RSTPROJNAME  ..."
+log_msg $SCRIPT " * Rename $RSTPROJNAME/$RSTPROJTMPLFILE to $RSTPROJNAME/$RSTPROJFILE  ..."
 mv $RSTPROJNAME/$RSTPROJTMPLFILE $RSTPROJNAME/$RSTPROJFILE
 
 
